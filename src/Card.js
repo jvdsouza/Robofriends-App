@@ -1,4 +1,7 @@
 import React from 'react';
+//This file generates the different robots using their id and obtains
+//their name and email from robots.js, as this js file is passed into CardList
+//which then utilises the Card class below.
 
 const Card = ({name, email, id}) => { //not destructuring inside the input means we'd need to have something like robotprop passed in as the parameter
   //const {name, email, id} = robotprop; //so we dont have to use robotprop.id or robotprop.name or robotprop.email
