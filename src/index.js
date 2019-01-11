@@ -4,9 +4,11 @@ import './index.css';
 import CardList from './CardList';
 import * as serviceWorker from './serviceWorker';
 import 'tachyons';
-import {robots} from './robots';
+import {robots} from './robots'; //obtain the robots.js file to pass into
+                                  //CardList.js
 
 ReactDOM.render(
+                //give to CardList the robots.js file as robots
                 <CardList robots={robots}/>,
   document.getElementById('root'));
 
