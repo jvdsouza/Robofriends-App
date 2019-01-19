@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
 // import { robots } from './robots'; //obtain the robots.js file to pass into
                                   //CardList.js
@@ -48,8 +49,10 @@ class App extends Component {
           <h1 className='f1'>RoboFriends</h1>
           <SearchBox searchChange={this.onSearchChange}/>
           <Scroll> {/*having CardList as a child for the Scroll tag automatically passes in all the props of CardList into scroll via props.children or parameterInput.children*/}
-            <CardList robots={filteredRobots}/> {/* give to CardList the robots.js file as robots from the state as above in the constructor */}
+            <ErrorBoundary>
+              <CardList robots={filteredRobots}/> {/* give to CardList the robots.js file as robots from the state as above in the constructor */}
             {/*was <CardList robots={this.state.robots}/>*/}
+            </ErrorBoundary>
           </Scroll>
         </div>
     );
