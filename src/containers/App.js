@@ -8,38 +8,43 @@ import './App.css';
 // import { robots } from './robots'; //obtain the robots.js file to pass into
                                   //CardList.js
 
-import {setSearchField} from '../actions';
+import {setSearchField, requestRobots} from '../actions';
 
 const mapStateToProps = state => { //what piece of state do i need to listen to and dispatch it to props
   return {
-    searchField: state.searchField //what needs to be brought here to be used
+    searchField: state.searchRobots.searchField,
+    robots: state.requestRobots.robots,
+    isPending: state.requestRobots.isPending,
+    error: state.requestRobots.error
+    //what needs to be brought here to be used
   }
 }
 
 const mapDispatchToProps = (dispatch) => { //tell what props dispatch should listen to that are actions that need to get dispatched
   return {
-    onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+    onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+    onRequestRobots: () => requestRobots()(dispatch)
   } //send it to the actions then the reducers
 }
 
 class App extends Component {
-  constructor() {
-    super()
-    this.state = { //having a state creates smart components
-      robots: [], //initial values for state
-      //searchfield: '' //initial value for searchfield in state
-    } //end state
-  } //end constructor
+  // constructor() {
+  //   super()
+  //   this.state = { //having a state creates smart components
+  //     robots: [], //initial values for state
+  //     //searchfield: '' //initial value for searchfield in state
+  //   } //end state
+  // } //end constructor
 
   componentDidMount() { //part of react so dont use arrow notation
-    fetch('https://jsonplaceholder.typicode.com/users') //obtain json data
-      .then(response => {
-         return response.json();
-      })
-      .then(users => {
-        this.setState({ robots: users }) //filter the users from json data into the robots state value
-    });
-
+    // fetch('https://jsonplaceholder.typicode.com/users') //obtain json data
+    //   .then(response => {
+    //      return response.json();
+    //   })
+    //   .then(users => {
+    //     this.setState({ robots: users }) //filter the users from json data into the robots state value
+    // });
+    this.props.onRequestRobots();
   }
   //anytime you make a method in a component, dont use methodName(parameters) {}
   //instead use methodName = (parameters) => {} in react
@@ -52,13 +57,12 @@ class App extends Component {
   // }
 
   render() {
-    const { robots /*, searchfield*/ } = this.state;
-    const { searchField, onSearchChange } = this.props;
+    // const { robots /*, searchfield*/ } = this.state;
+    const { searchField, onSearchChange, robots, isPending } = this.props;
         const filteredRobots = robots.filter(robot => {
-          console.log(searchField)
           return robot.name.toLowerCase().includes(searchField.toLowerCase());
       })
-      if(!robots.length){ //if the browser is still loading the users from the api
+      if(isPending){ //if the browser is still loading the users from the api
         return <h1>Loading</h1>
       } else{
         return(
