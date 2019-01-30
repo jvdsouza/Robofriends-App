@@ -9,7 +9,7 @@ const initialStateSearch = {
   searchField: ''
 }
 
-export const searchRobots = (state = initialStateSearch, action={}) => {
+export const searchRobots = (state=initialStateSearch, action={}) => {
   switch (action.type) {
     case CHANGE_SEARCH_FIELD: //From the action.js file
       return Object.assign({}, state, {searchField: action.payload});
