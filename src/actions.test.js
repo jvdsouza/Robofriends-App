@@ -37,10 +37,10 @@ describe('AsyncActions', () => {
     fetchMock.restore()
   })
 
-  it('creates REQUEST_ROBOTS_SUCCESS when fetching robots has been done', (done) => {
+  it('creates REQUEST_ROBOTS_SUCCESS when fetching robots has been done', () => {
     const store = mockStore();
 
-    fetchMock.mock('https://jsonplaceholder.typicode.com/users', 200)
+    // fetchMock.mock('/users', 200)
 
     fetchMock.getOnce('https://jsonplaceholder.typicode.com/users', {
       data: {}
@@ -48,7 +48,7 @@ describe('AsyncActions', () => {
 
     const expectedActions = [
       {type: REQUEST_ROBOTS_PENDING},
-      {type: REQUEST_ROBOTS_SUCCESS, payload: {} }
+      {type: REQUEST_ROBOTS_SUCCESS, payload: {data: {}} }
     ]
 
     // store.dispatch(actions.requestRobots())
@@ -56,7 +56,25 @@ describe('AsyncActions', () => {
     // expect(action).toEqual(expectedActions)
     expect.assertions(1)
     return store.dispatch(actions.requestRobots()).then(() => {
-      console.log('hello')
+        expect(store.getActions()).toEqual(expectedActions)
+      }).catch(err => console.log(err))
+  })
+
+  it('creates REQUEST_ROBOTS_FAILURE when fetching robots has been failed', () => {
+    const store = mockStore();
+
+    fetchMock.get('*', {throws: "error"})
+
+    const expectedActions = [
+      {type: REQUEST_ROBOTS_PENDING},
+      {type: REQUEST_ROBOTS_FAILED, payload: 'error'}
+    ]
+
+    // store.dispatch(actions.requestRobots())
+    // const action = store.getActions();
+    // expect(action).toEqual(expectedActions)
+    expect.assertions(1)
+    return store.dispatch(actions.requestRobots()).then(() => {
         expect(store.getActions()).toEqual(expectedActions)
       }).catch(err => console.log(err))
   })
