@@ -42,7 +42,7 @@ describe('AsyncActions', () => {
 
     // fetchMock.mock('/users', 200)
 
-    fetchMock.getOnce('https://jsonplaceholder.typicode.com/users', {
+    fetchMock.getOnce('*', {
       data: {}
     })
 
@@ -63,7 +63,7 @@ describe('AsyncActions', () => {
   it('creates REQUEST_ROBOTS_FAILURE when fetching robots has been failed', () => {
     const store = mockStore();
 
-    fetchMock.get('*', {throws: "error"})
+    fetchMock.getOnce('*', {throws: "error"})
 
     const expectedActions = [
       {type: REQUEST_ROBOTS_PENDING},
