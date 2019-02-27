@@ -17,9 +17,9 @@ jobs:
          name: The First Step
          command: |
            echo 'Double Trouble'
- workflows:
-   version: 2
-   bobbeh_sally:
-     jobs:
-       - bobbeh
-       - sally
+workflows:
+ version: 2
+ bobbeh_sally:
+   jobs:
+     - bobbeh
+     - sally
