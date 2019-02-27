@@ -1,25 +1,41 @@
 version: 2.0
 jobs:
- bobbeh:
+ build:
    docker:
-     - image: alpine:3.7
+     - image: circleci/node:alpine
    steps:
+     - checkout
      - run:
-         name: The First Step
+         name: npm installing
          command: |
-           echo 'Hello World!'
-           echo 'This is the delivery pipeline'
- sally:
+           echo 'npm installing'
+           npm install
+           CI=true npm run build
+ test:
    docker:
-     - image: alpine:3.7
+     - image: circleci/node:alpine
    steps:
+     - checkout
      - run:
-         name: The First Step
+         name: testing
          command: |
-           echo 'Double Trouble'
+           echo 'testing'
+           npm install
+           npm test
+  hithere:
+    docker:
+      - image: circleci/node:alpine
+    steps:
+      - checkout
+      - run:
+          command:
+            echo "hellooooo!"
 workflows:
  version: 2
- bobbeh_sally:
+ build_test_and_lint:
    jobs:
-     - bobbeh
-     - sally
+     - build
+     - hithere
+     - test:
+       - requires:
+         -hithere
