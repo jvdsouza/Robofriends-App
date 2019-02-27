@@ -22,14 +22,14 @@ jobs:
            echo 'testing'
            npm install
            npm test
-  hithere:
-    docker:
-      - image: circleci/node:alpine
-    steps:
-      - checkout
-      - run:
-          command:
-            echo "hellooooo!"
+ hithere:
+   docker:
+     - image: circleci/node:alpine
+   steps:
+     - checkout
+     - run:
+         command:
+           echo "hellooooo!"
 workflows:
  version: 2
  build_test_and_lint:
@@ -37,5 +37,5 @@ workflows:
      - build
      - hithere
      - test:
-       - requires:
+        requires:
          -hithere
